@@ -1,0 +1,9 @@
+*.mp4
+*.mkv
+*.webm
+*.mov
+*.avi
+*.m4v
+*.log
+*.lock
+.live-wallpaper-*.lock

@@ -1,0 +1,11 @@
+[Unit]
+Description=Pick random wallpaper at login
+Before=hidamari-live-wallpaper.service
+PartOf=graphical-session.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/env bash %h/Pictures/wallpapers/live-wallpaper-randomize.sh --prepare-only
+
+[Install]
+WantedBy=graphical-session.target

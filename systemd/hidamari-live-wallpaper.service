@@ -1,0 +1,12 @@
+[Unit]
+Description=Hidamari Live Wallpaper
+After=graphical-session.target live-wallpaper-randomize.service
+PartOf=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/flatpak run io.github.jeffshee.Hidamari -b
+ExecStop=-/usr/bin/flatpak kill io.github.jeffshee.Hidamari
+
+[Install]
+WantedBy=graphical-session.target
