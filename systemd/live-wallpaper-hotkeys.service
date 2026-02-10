@@ -1,0 +1,11 @@
+[Unit]
+Description=Enforce GNOME hotkeys and Super key behavior
+After=graphical-session.target
+PartOf=graphical-session.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/env bash %h/Pictures/wallpapers/setup-hotkeys.sh
+
+[Install]
+WantedBy=graphical-session.target

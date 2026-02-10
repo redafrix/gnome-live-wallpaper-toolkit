@@ -1,9 +1,11 @@
 # GNOME Live Wallpaper Toolkit (Hidamari)
 
 Simple toolkit for Ubuntu GNOME to run video wallpapers with:
-- one-key toggle (`Super+W`)
-- one-key next wallpaper (`Super+X`)
+- one-key toggle (`Alt+W`)
+- one-key next wallpaper (`Alt+X`)
+- one-key screenshot tool (`F6`)
 - random wallpaper on every login
+- auto battery saver (disable on battery, enable on AC)
 
 Works with `systemd --user` + Hidamari Flatpak.
 
@@ -16,6 +18,8 @@ Works with `systemd --user` + Hidamari Flatpak.
 - Loops through all videos in a folder (new files are auto-detected)
 - Stable service startup (no terminal window required)
 - Random wallpaper pre-selected before each login session starts
+- Hotkeys and Windows key behavior auto-enforced at every login
+- Battery policy monitor auto-manages wallpaper on AC/battery
 - One-command install
 
 ## Requirements
@@ -62,16 +66,22 @@ Installer actions:
 
 ## Hotkeys
 
-- `Super+W` → toggle wallpaper on/off
-- `Super+X` → next wallpaper (loop)
+- `Super` (Windows key) → GNOME overview
+- `Alt+W` → toggle wallpaper on/off
+- `Alt+X` → next wallpaper (loop)
+- `F6` → open screenshot tool
 
-`Super` = Windows key.
+`Alt+W` is always a manual override:
+- if you toggle while on battery, your choice stays active
+- on next power-source change (plug/unplug), auto policy resumes
 
 ## How login randomization works
 
 On every new login:
 1. `live-wallpaper-randomize.service` selects a random video
 2. `hidamari-live-wallpaper.service` starts Hidamari using that selection
+3. `live-wallpaper-hotkeys.service` reapplies hotkeys and Super key behavior
+4. `live-wallpaper-power-policy.service` enforces AC/battery behavior
 
 ## Common commands
 
@@ -82,6 +92,7 @@ systemctl --user start hidamari-live-wallpaper.service
 systemctl --user stop hidamari-live-wallpaper.service
 systemctl --user restart hidamari-live-wallpaper.service
 systemctl --user status hidamari-live-wallpaper.service
+systemctl --user status live-wallpaper-power-policy.service
 ```
 
 Script control:
@@ -118,7 +129,10 @@ Scripts:
 - `live-wallpaper-toggle.sh`
 - `live-wallpaper-next.sh`
 - `live-wallpaper-randomize.sh`
+- `live-wallpaper-power-policy.sh`
 
 Systemd units:
 - `systemd/hidamari-live-wallpaper.service`
 - `systemd/live-wallpaper-randomize.service`
+- `systemd/live-wallpaper-hotkeys.service`
+- `systemd/live-wallpaper-power-policy.service`

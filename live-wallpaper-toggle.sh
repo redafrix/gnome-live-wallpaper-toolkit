@@ -5,6 +5,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SERVICE="hidamari-live-wallpaper.service"
 APP_ID="io.github.jeffshee.Hidamari"
 LOG_FILE="$SCRIPT_DIR/live-wallpaper.log"
+OVERRIDE_FILE="$SCRIPT_DIR/.live-wallpaper-power-override"
 
 app_running() {
   /usr/bin/flatpak ps | /bin/grep -q "$APP_ID"
@@ -28,11 +29,13 @@ if systemctl --user is-active --quiet "$SERVICE"; then
   if command -v notify-send >/dev/null 2>&1; then
     notify-send "Live Wallpaper" "Disabled"
   fi
+  printf 'disabled\n' >"$OVERRIDE_FILE"
   echo "[$(date '+%F %T')] toggle: disabled" >>"$LOG_FILE"
 else
   /usr/bin/systemctl --user start "$SERVICE"
   if command -v notify-send >/dev/null 2>&1; then
     notify-send "Live Wallpaper" "Enabled"
   fi
+  printf 'enabled\n' >"$OVERRIDE_FILE"
   echo "[$(date '+%F %T')] toggle: enabled" >>"$LOG_FILE"
 fi

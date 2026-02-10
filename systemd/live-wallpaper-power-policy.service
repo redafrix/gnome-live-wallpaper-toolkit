@@ -1,0 +1,13 @@
+[Unit]
+Description=Live Wallpaper power policy monitor
+After=graphical-session.target live-wallpaper-randomize.service hidamari-live-wallpaper.service
+PartOf=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/env bash %h/Pictures/wallpapers/live-wallpaper-power-policy.sh
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=graphical-session.target

@@ -7,3 +7,5 @@
 *.log
 *.lock
 .live-wallpaper-*.lock
+.live-wallpaper-power-source
+.live-wallpaper-power-override
